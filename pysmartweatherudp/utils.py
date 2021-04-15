@@ -50,6 +50,7 @@ class StObservation:
         self.illuminance = data[9]
         self.uv = data[10]
         self.precipitation_rate = UnitConversion.volume(self, data[12], units)
+        self.precipitation_type = precipitationType(data[13])
         self.wind_speed = UnitConversion.speed(self, data[2], units)
         self.wind_bearing = data[4]
         self.wind_lull = UnitConversion.speed(self, data[1], units)
@@ -96,6 +97,7 @@ class RapidWind:
         self.illuminance = 0
         self.uv = 0
         self.precipitation_rate = 0
+        self.precipitation_type = None
         self.wind_speed = 0
         self.wind_bearing = 0
         self.wind_lull = 0
@@ -116,6 +118,7 @@ class SkyOberservation:
         self.illuminance = data[1]
         self.uv = data[2]
         self.precipitation_rate = UnitConversion.volume(self, data[3], units)
+        self.precipitation_type = precipitationType(data[12])
         self.wind_speed = UnitConversion.speed(self, data[5], units)
         self.wind_bearing = data[7]
         self.wind_lull = UnitConversion.speed(self, data[4], units)
@@ -159,6 +162,7 @@ class AirOberservation:
         self.illuminance = 0
         self.uv = 0
         self.precipitation_rate = 0
+        self.precipitation_type = None
         self.wind_speed = 0
         self.wind_bearing = 0
         self.wind_lull = 0
@@ -172,6 +176,14 @@ class AirOberservation:
         # Calculated Values
         self.wind_chill = 0
         self.feels_like = 0
+
+def precipitationType(data):
+    """ Returns the type of precipitation as a string. """
+    if data == 1:
+        return 'rain'
+    if data == 2:
+        return 'hail'
+    return None
         
 class UnitConversion:
     """
